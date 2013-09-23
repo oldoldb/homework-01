@@ -1,0 +1,61 @@
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<cstdlib>
+#include<algorithm>
+#define INF 0x3f3f3f3f
+using namespace std;
+const int maxn=100005;
+int map[maxn];
+int ans;
+int begin;
+int end;
+int n;
+void getmap()
+{
+	for(int i=1;i<=n;i++)
+	{
+		cin>>map[i];
+	}
+}
+void work()
+{
+	int tempsum=0;
+	int tmpbegin=1;
+	for(int i=1;i<=n;i++)
+	{
+		tempsum+=map[i];
+		if(tempsum>ans)
+		{
+			ans=tempsum;
+			begin=tmpbegin;
+			end=i;
+		}
+		if(tempsum<0)
+		{
+			tempsum=0;
+			tmpbegin=i+1;
+		}
+		
+	}
+}
+
+int main()
+{
+	int T;
+	cin>>T;
+	for(int tt=1;tt<=T;tt++)
+	{
+		ans=-INF;
+		cin>>n;
+		getmap();
+		work();
+		cout<<"Case "<<tt<<":"<<endl;
+		cout<<ans<<" "<<begin<<" "<<end<<endl;
+		if(tt<T)
+		{
+			cout<<endl;
+		}
+	}
+	return 0;
+}

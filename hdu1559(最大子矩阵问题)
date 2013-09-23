@@ -1,0 +1,63 @@
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<cstdlib>
+#include<algorithm>
+#define INF 0x3f3f3f3f
+using namespace std;
+const int maxn=1005;
+int map[maxn][maxn];
+int sum[maxn][maxn];
+int ans;
+int n,m;
+int x,y;
+void getmap()
+{
+	for(int i=1;i<=m;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			cin>>map[i][j];
+		}
+	}
+}
+void getsum()
+{
+	memset(sum,0,sizeof(sum));
+	for(int i=1;i<=m;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			sum[i][j]=sum[i-1][j]+sum[i][j-1]-sum[i-1][j-1]+map[i][j];
+		}
+	}
+}
+void work()
+{
+	ans=-INF;
+	for(int i=1;i<=m;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			if(i>=x&&j>=y)
+			{
+				int all=sum[i][j]-sum[i-x][j]-sum[i][j-y]+sum[i-x][j-y];
+				ans=max(all,ans);
+			}
+		}
+	}
+}
+int main()
+{
+	int T;
+	cin>>T;
+	while(T--)
+	{
+		cin>>m>>n>>x>>y;
+		getmap();
+		getsum();
+		work();
+		cout<<ans<<endl;
+	}
+	return 0;
+}

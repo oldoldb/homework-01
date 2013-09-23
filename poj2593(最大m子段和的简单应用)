@@ -1,0 +1,56 @@
+/*
+dp[i][j]前j个数(包括第j个数,组成i组的和的最大值
+dp[i][j]=max(dp[i-1][j-1]+map[j],dp[i-1][k]+map[j]),0<k<j
+即根据第j个数是否单独成组划分状态
+前i组仅与前i-1组有关,这里用一维数组就好
+而dp[i-1][k]其实就是上一组中从0-j-1中划分为i-1组的最大值 
+*/
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<cstdlib>
+#include<algorithm>
+#define INF 0x3f3f3f3f
+using namespace std;
+const int maxn=1000005;
+int map[maxn];
+int dp[maxn];
+int prev[maxn];
+int ans;
+int m;
+int n;
+void getmap()
+{
+	dp[0]=0;
+	prev[0]=0;
+	for(int i=1;i<=n;i++)
+	{
+		scanf("%d",&map[i]);
+		dp[i]=0;
+		prev[i]=0;
+	}
+}
+void work()
+{
+	for(int i=1;i<=m;i++)
+	{
+		ans=-INF;
+		for(int j=i;j<=n;j++)
+		{
+			dp[j]=max(dp[j-1],prev[j-1])+map[j];
+			prev[j-1]=ans;
+			ans=max(ans,dp[j]);
+		}
+	}
+}
+int main()
+{
+	while(scanf("%d",&n)!=EOF&&n)
+	{
+		m=2;
+		getmap();
+		work();
+		printf("%d\n",ans);
+	}
+	return 0;
+}
